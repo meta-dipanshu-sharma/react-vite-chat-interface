@@ -11,15 +11,17 @@ function ChatInput() {
 
   return (
     <div className="chat-input">
-      <input
-        type="text"
-        placeholder="Message"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        autoFocus
-      />
-      <button onClick={handleSend}>Send</button>
+      <div className="chat-input__inner">
+        <input
+          type="text"
+          placeholder="Message"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          autoFocus
+        />
+        <button onClick={handleSend}>Send</button>
+      </div>
     </div>
   );
 }

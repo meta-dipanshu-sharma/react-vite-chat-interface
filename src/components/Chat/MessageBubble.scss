@@ -2,28 +2,34 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: $margin-standard;
-  padding: 0 $margin-standard;
+  margin-bottom: 16px;
+  padding: 0 24px;
   box-sizing: border-box;
 
   &__bubble {
     display: flex;
     flex-direction: column;
     width: fit-content;
-    max-width: 640px; 
+
+    // DEFAULT: Mobile (S Size)
+    max-width: 240px;
+
     background: $bg-other;
     padding: 16px;
     border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     word-break: break-word;
+
+    // M Size & Desktop Override
+    @media (min-width: $breakpoint-mobile) {
+      max-width: 420px;
+    }
   }
 
   &__author {
     font-size: 12px;
     color: $text-muted;
     margin-bottom: 4px;
-    text-transform: capitalize;
   }
 
   &__text {
@@ -44,43 +50,10 @@
 
     .message__bubble {
       background: $bg-own;
-      max-width: 420px; 
-      border: none;
     }
 
     .message__timestamp {
       align-self: flex-end;
-    }
-  }
-
-  // --- Responsiveness ---
-
-  @media (max-width: $breakpoint-tablet) {
-    margin-bottom: 16px;
-    
-    &__bubble {
-      max-width: 80%; 
-    }
-
-    &--own {
-      .message__bubble {
-        max-width: 80%;
-      }
-    }
-  }
-
-  @media (max-width: $breakpoint-mobile) {
-    padding: 0 12px;
-    
-    &__bubble {
-      max-width: 95%;
-      padding: 12px;
-    }
-
-    &--own {
-      .message__bubble {
-        max-width: 95%;
-      }
     }
   }
 }

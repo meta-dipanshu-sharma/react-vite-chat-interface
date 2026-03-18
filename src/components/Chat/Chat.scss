@@ -1,26 +1,35 @@
 .chat {
-  height: 100vh;
+  height: 100dvh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  background-color: #f0f0f0;
 
   &__container {
     width: 100%;
-    max-width: $breakpoint-desktop;
-    height: 90vh;
-    background: #f0f0f0;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    margin: 0 auto;
+    background: #ffffff;
+  }
+}
 
-    // Tablet layout (M)
-    @media (max-width: $breakpoint-tablet) {
-      max-width: $breakpoint-tablet;
-    }
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  background-image: url('../../assets/Body BG.png');
+  background-repeat: repeat;
+  
+  &__inner {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
 
-    // Mobile layout (S)
-    @media (max-width: $breakpoint-mobile) {
-      max-width: 100%;
+    // M Size & Desktop
+    @media (min-width: $breakpoint-mobile) {
+      max-width: 640px;
     }
   }
 }

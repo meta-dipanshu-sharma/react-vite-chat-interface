@@ -1,0 +1,10 @@
+.message-list {
+  flex: 1;
+  padding: 24px 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-image: url('../../assets/Body BG.png');
+  background-repeat: repeat;
+  background-size: 300px;
+}

@@ -1,5 +1,5 @@
 export type Message = {
-  id: string;
+  _id: string;
   message: string;
   author: string;
   createdAt: string;

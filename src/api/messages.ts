@@ -1,29 +1,72 @@
-const BASE_URL = "http://localhost:3000/api/v1";
+import type { Message } from '../types/message';
+
+const BASE_URL = "http://localhost:3000/api/v1/messages";
 const TOKEN = "super-secret-doodle-token";
 
-export async function fetchMessages() {
-  const res = await fetch(`${BASE_URL}/messages`, {
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-    },
-  });
-
-  if (!res.ok) throw new Error("Failed to fetch messages");
-
-  return res.json();
+export interface PostMessagePayload {
+  message: string;
+  author: string;
 }
 
-export async function sendMessage(message: string, author: string) {
-  const res = await fetch(`${BASE_URL}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ message, author }),
-  });
+/**
+ * Standard headers used for all authenticated requests
+ */
+const getHeaders = () => ({
+  'Authorization': `Bearer ${TOKEN}`,
+  'Content-Type': 'application/json',
+});
 
-  if (!res.ok) throw new Error("Failed to send message");
+/**
+ * Fetches messages
+ */
+export const fetchMessages = async (after?: string, limit: number = 20): Promise<Message[]> => {
+  const params = new URLSearchParams();
+  
+  if (after) {
+    params.append('after', after);
+  }
+  
+  params.append('limit', limit.toString());
 
-  return res.json();
-}
+  const url = `${BASE_URL}?${params.toString()}`;
+  
+  try {
+    const response = await fetch(url, {
+      headers: getHeaders(),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Error ${response.status}: Failed to fetch`);
+    }
+
+    const data: Message[] = await response.json();
+    
+    return data; 
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
+  }
+};
+
+/**
+ * Sends a new message to the API
+ */
+export const postMessage = async (payload: PostMessagePayload): Promise<Message> => {
+  try {
+    const response = await fetch(BASE_URL, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: Could not send message`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Post error:", error);
+    throw error;
+  }
+};

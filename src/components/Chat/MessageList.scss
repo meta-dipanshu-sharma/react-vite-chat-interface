@@ -6,4 +6,10 @@
   flex-direction: column;
   background-image: url('../../assets/Body BG.png');
   background-repeat: repeat;
+
+  &__content {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 }

@@ -19,20 +19,31 @@ function MessageList({ messages, loading }: Props) {
   if (loading && messages.length === 0) return <div className="loader">Loading chat...</div>;
 
   return (
-    <div className="message-list">
+    <main 
+      className="message-list" 
+      aria-label="Chat conversation history"
+      role="main"
+    >
       <div className="message-list__inner">
-        {messages.map((msg) => (
-          <MessageBubble 
-            key={msg._id} 
-            message={msg.message} 
-            author={msg.author} 
-            isOwn={msg.author === DEFAULT_AUTHOR}
-            timestamp={msg.createdAt} 
-          />
-        ))}
-        <div ref={scrollRef} />
+        <ul 
+          className="message-list__content" 
+          aria-live="polite" 
+          aria-relevant="additions"
+        >
+          {messages.map((msg) => (
+            <li key={msg._id} className="message-list__item">
+              <MessageBubble 
+                message={msg.message} 
+                author={msg.author} 
+                isOwn={msg.author === DEFAULT_AUTHOR}
+                timestamp={msg.createdAt} 
+              />
+            </li>
+          ))}
+        </ul>
+        <div ref={scrollRef} aria-hidden="true" />
       </div>
-    </div>
+    </main>
   );
 }
 

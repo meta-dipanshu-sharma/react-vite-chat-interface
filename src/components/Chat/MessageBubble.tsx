@@ -11,13 +11,23 @@ type Props = {
 
 const MessageBubble = memo(({ message, author, isOwn, timestamp }: Props) => {
   return (
-    <div className={`message ${isOwn ? "message--own" : ""}`}>
+    <article className={`message ${isOwn ? "message--own" : ""}`}>
       <div className="message__bubble">
-        {!isOwn && <div className="message__author">{author}</div>}
+        {!isOwn && (
+          <span className="message__author" aria-hidden="true">
+            {author}
+          </span>
+        )}
         <div className="message__text">{message}</div>
-        <div className="message__timestamp">{formatMessageDate(timestamp)}</div>
+        <time
+          className="message__timestamp"
+          dateTime={timestamp}
+          title={new Date(timestamp).toLocaleString()}
+        >
+          {formatMessageDate(timestamp)}
+        </time>
       </div>
-    </div>
+    </article>
   );
 });
 

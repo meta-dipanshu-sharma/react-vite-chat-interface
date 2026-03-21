@@ -1,37 +1,36 @@
+import { useEffect, useRef } from "react";
 import "./MessageList.scss";
 import MessageBubble from "./MessageBubble";
+import { DEFAULT_AUTHOR } from "../../utils/constants";
+import type { Message } from "../../types/message";
 
-const mockMessages = [
-  {
-    id: 1,
-    message: "Hello!",
-    author: "John",
-    isOwn: false,
-    timestamp: "15 Mar 2025 09:30",
-  },
-  {
-    id: 2,
-    message: "Hi there!",
-    author: "You",
-    isOwn: true,
-    timestamp: "15 Mar 2025 09:31",
-  },
-  {
-    id: 3,
-    message: "How are you?",
-    author: "John",
-    isOwn: false,
-    timestamp: "15 Mar 2025 09:32",
-  },
-];
+type Props = {
+  messages: Message[];
+  loading: boolean;
+};
 
-function MessageList() {
+function MessageList({ messages, loading }: Props) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  if (loading && messages.length === 0) return <div className="loader">Loading chat...</div>;
+
   return (
     <div className="message-list">
       <div className="message-list__inner">
-        {mockMessages.map((msg) => (
-          <MessageBubble key={msg.id} {...msg} />
+        {messages.map((msg) => (
+          <MessageBubble 
+            key={msg._id} 
+            message={msg.message} 
+            author={msg.author} 
+            isOwn={msg.author === DEFAULT_AUTHOR}
+            timestamp={msg.createdAt} 
+          />
         ))}
+        <div ref={scrollRef} />
       </div>
     </div>
   );

@@ -1,27 +1,39 @@
 import { useState } from "react";
 import "./ChatInput.scss";
 
-function ChatInput() {
+type Props = {
+  send: (text: string) => void;
+};
+
+function ChatInput({ send }: Props) {
   const [text, setText] = useState("");
 
-  const handleSend = () => {
+  const handleSend = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (!text.trim()) return;
+
+    send(text);
     setText("");
   };
 
   return (
     <div className="chat-input">
-      <div className="chat-input__inner">
+      <form className="chat-input__inner" onSubmit={handleSend}>
         <input
           type="text"
           placeholder="Message"
           value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
           autoFocus
+          autoComplete="off"
         />
-        <button onClick={handleSend}>Send</button>
-      </div>
+        <button 
+          type="submit" 
+          disabled={!text.trim()}
+        >
+          Send
+        </button>
+      </form>
     </div>
   );
 }

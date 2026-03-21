@@ -63,7 +63,12 @@ export const useChat = () => {
   useEffect(() => {
     fetchUpdates();
 
-    const interval = setInterval(fetchUpdates, 3000);
+    const interval = setInterval(() => {
+    // Only fetch if the user is actually looking at the page
+    if (document.visibilityState === 'visible') {
+      fetchUpdates();
+    }
+  }, 3000);
 
     return () => clearInterval(interval);
   }, [fetchUpdates]);

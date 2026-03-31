@@ -57,7 +57,7 @@ To ensure a "zero-latency" feel, the app pushes messages to the UI immediately w
     
 *   Docker (to run the provided backend container)
 
-*   Backend API: This project is designed to interface with the [Doodle Frontend Challenge Chat API](https://github.com/DoodleScheduling/frontend-challenge-chat-api). Ensure the local server is running at http://localhost:3000 before starting the frontend.
+*   Backend API: This project is designed to interface with the [Chat API](https://github.com/DoodleScheduling/frontend-challenge-chat-api). Ensure the local server is running at http://localhost:3000 before starting the frontend.
     
 
 ### Installation
